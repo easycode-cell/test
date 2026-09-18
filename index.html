@@ -1,106 +1,787 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>第一次使用</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>永旺夢樂城 沖繩來客夢 - 商店優惠券完整版</title>
+  <style>
+    :root {
+      --primary: #ae1268;
+      --bg: #f8f9fa;
+      --card-bg: #ffffff;
+      --text: #333333;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 12px;
+    }
+    header {
+      text-align: center;
+      padding: 10px 0;
+      border-bottom: 2px solid var(--primary);
+      margin-bottom: 12px;
+    }
+    h1 {
+      font-size: 1.2rem;
+      color: var(--primary);
+      margin: 0 0 6px 0;
+    }
+    .banner {
+      background: #fff0f5;
+      border: 1px dashed var(--primary);
+      border-radius: 8px;
+      padding: 10px;
+      text-align: center;
+      font-weight: bold;
+      margin-bottom: 12px;
+      font-size: 0.88rem;
+    }
+    .search-box {
+      width: 100%;
+      padding: 8px 12px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      margin-bottom: 12px;
+      font-size: 0.9rem;
+    }
+    .filter-container {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      margin-bottom: 12px;
+    }
+    .filter-btn {
+      flex: 0 0 auto;
+      padding: 6px 14px;
+      border: 1px solid #ddd;
+      border-radius: 16px;
+      background: #fff;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+    .filter-btn.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+    .coupon-list {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    @media (min-width: 600px) {
+      .coupon-list { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+    }
+    .card {
+      background: var(--card-bg);
+      border-radius: 8px;
+      padding: 12px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+    }
+    .card-img-wrapper {
+      width: 100%;
+      height: 140px;
+      background-color: #eee;
+      border-radius: 6px;
+      margin-bottom: 8px;
+      overflow: hidden;
+    }
+    .card-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .tag {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: bold;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+    .tag-service { background-color: #6c757d; }
+    .tag-food { background-color: #e67e22; }
+    .tag-goods { background-color: #27ae60; }
+    .tag-fashion { background-color: #2980b9; }
 
-        body {
-            background-color: #f8fafc;
-            color: #1e293b;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .card {
-            background: #ffffff;
-            border-radius: 16px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
-            max-width: 480px;
-            width: 100%;
-            padding: 40px 32px;
-            text-align: center;
-        }
-
-        .badge {
-            display: inline-block;
-            background-color: #e0e7ff;
-            color: #4338ca;
-            font-size: 14px;
-            font-weight: 600;
-            padding: 6px 16px;
-            border-radius: 20px;
-            margin-bottom: 20px;
-        }
-
-        h1 {
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 12px;
-            color: #0f172a;
-        }
-
-        p {
-            font-size: 16px;
-            color: #64748b;
-            line-height: 1.6;
-            margin-bottom: 32px;
-        }
-
-        .btn {
-            display: inline-block;
-            width: 100%;
-            background-color: #2563eb;
-            color: #ffffff;
-            font-size: 16px;
-            font-weight: 600;
-            text-decoration: none;
-            padding: 14px 24px;
-            border-radius: 8px;
-            transition: background-color 0.2s ease, transform 0.1s ease;
-        }
-
-        .btn:hover {
-            background-color: #1d4ed8;
-        }
-
-        .btn:active {
-            transform: scale(0.98);
-        }
-
-        .footer-note {
-            margin-top: 20px;
-            font-size: 12px;
-            color: #94a3b8;
-        }
-    </style>
+    .shop-title { font-weight: bold; font-size: 0.95rem; margin-bottom: 4px; }
+    .coupon-desc { font-size: 0.85rem; color: #444; margin-bottom: 6px; line-height: 1.3; }
+    .expiry { font-size: 0.72rem; color: #888; margin-bottom: 8px; }
+    .btn-detail {
+      display: block;
+      text-align: center;
+      background-color: var(--primary);
+      color: white;
+      padding: 8px 0;
+      border-radius: 4px;
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
 
-    <div class="card">
-        <span class="badge">獨家限時優惠</span>
-        <h1>Are You Ready?</h1>
-        <p>點擊下方按鈕前往指定頁面，立即領取專屬折扣與完整服務體驗。</p>
-        
-        <!-- 將 href 替換為您的目標網址 -->
-        <a href="https://example.com" class="btn" target="_blank" rel="noopener noreferrer">
-            前往指定頁面
-        </a>
+  <header>
+    <h1>永旺夢樂城 沖繩來客夢</h1>
+    <div style="font-size: 0.8rem; color: #666;">各式商店優惠券 (共 40 店)</div>
+  </header>
 
-        <div class="footer-note">
-            點擊將開啟新分頁並跳轉至第三方網站
-        </div>
+  <a href="https://tw.aeonmall.global/coupons/discount?couponid=22&mall=mall52#banner" target="_blank" style="text-decoration:none;">
+    <div class="banner">折扣優惠券¥500 或 免費贈品</div>
+  </a>
+
+  <input type="text" id="searchInput" class="search-box" placeholder="搜尋店家或優惠關鍵字..." onkeyup="filterCoupons()">
+
+  <div class="filter-container">
+    <button class="filter-btn active" onclick="setCategory('all', this)">全部 (50)</button>
+    <button class="filter-btn" onclick="setCategory('service', this)">服務 (3)</button>
+    <button class="filter-btn" onclick="setCategory('food', this)">美食 (19)</button>
+    <button class="filter-btn" onclick="setCategory('goods', this)">商品 (7)</button>
+    <button class="filter-btn" onclick="setCategory('fashion', this)">時尚 (19)</button>
+  </div>
+
+  <div class="coupon-list" id="couponGrid">
+
+    <!-- 1 -->
+    <div class="card" data-cat="service">
+      <div>
+        <div class="card-img-wrapper"><img class="card-img" src="http://aeonmall-global.g.kuroco-img.app/v=1788756679/files/topics/1255_ext_2_0.png" alt="CHUO CONTACT"></div>
+        <span class="tag tag-service">服務</span>
+        <div class="shop-title">CHUO CONTACT</div>
+        <div class="coupon-desc">店內購買商品滿5,500日圓（含稅），即可獲贈精美禮品一份。</div>
+        <div class="expiry">期間：2027/02/28</div>
+      </div>
+      <a href="https://tw.aeonmall.global/mall/okinawarycom/coupons/1258" class="btn-detail" target="_blank">出示優惠券</a>
     </div>
 
+    <!-- 2 -->
+    <div class="card" data-cat="food">
+      <div>
+        <div class="card-img-wrapper"><img class="card-img" src="http://aeonmall-global.g.kuroco-img.app/v=1788755588/files/topics/1253_ext_2_0.png" alt="HAWAIIAN SIMONE BELLENASION"></div>
+        <span class="tag tag-food">美食</span>
+        <div class="shop-title">HAWAIIAN SIMONE BELLENASION</div>
+        <div class="coupon-desc">出示優惠券可享5%折扣</div>
+        <div class="expiry">期間：2027/02/28</div>
+      </div>
+      <a href="https://tw.aeonmall.global/mall/okinawarycom/coupons/1256" class="btn-detail" target="_blank">出示優惠券</a>
+    </div>
+
+    <!-- 3 -->
+    <div class="card" data-cat="food">
+      <div>
+        <div class="card-img-wrapper"><img class="card-img" src="http://aeonmall-global.g.kuroco-img.app/v=1788756376/files/topics/1254_ext_2_0.png" alt="TEA STAND MARC:MARSH"></div>
+        <span class="tag tag-food">美食</span>
+        <div class="shop-title">TEA STAND MARC:MARSH</div>
+        <div class="coupon-desc">出示優惠券可享5%折扣</div>
+        <div class="expiry">期間：2027/02/28</div>
+      </div>
+      <a href="https://tw.aeonmall.global/mall/okinawarycom/coupons/1257" class="btn-detail" target="_blank">出示優惠券</a>
+    </div>
+
+    <!-- 4 -->
+    <div class="card" data-cat="goods">
+      <div>
+        <div class="card-img-wrapper"><img class="card-img" src="http://aeonmall-global.g.kuroco-img.app/v=1786498067/files/topics/1166_ext_2_0.png" alt="EVERYTHING MINECRAFT"></div>
+        <span class="tag tag-goods">商品</span>
+        <div class="shop-title">EVERYTHING MINECRAFT</div>
+        <div class="coupon-desc">九折優惠</div>
+        <div class="expiry">長期優惠</div>
+      </div>
+      <a href="https://tw.aeonmall.global/mall/okinawarycom/coupons/1167" class="btn-detail" target="_blank">出示優惠券</a>
+    </div>
+
+    <!-- 5 -->
+    <div class="card" data-cat="food">
+      <div>
+        <div class="card-img-wrapper"><img class="card-img" src="http://aeonmall-global.g.kuroco-img.app/v=1780554933/files/topics/862_ext_2_0.png" alt="Unagi Umaru"></div>
+        <span class="tag tag-food">美食</span>
+        <div class="shop-title">Unagi Umaru</div>
+        <div class="coupon-desc">出示此優惠券，即可享有鰻魚玉子丼飯（特）5%的折扣。</div>
+        <div class="expiry">期間：2027/02/28</div>
+      </div>
+      <a href="https://tw.aeonmall.global/mall/okinawarycom/coupons/867" class="btn-detail" target="_blank">出示優惠券</a>
+    </div>
+
+    <!-- 6 -->
+    <div class="card" data-cat="food">
+      <div>
+        <div class="card-img-wrapper"><img class="card-img" src="http://aeonmall-global.g.kuroco-img.app/v=1780555388/files/topics/863_ext_2_0.png" alt="CHEESE GOOD FACTORY"></div>
+        <span class="tag tag-food">美食</span>
+        <div class="shop-title">CHEESE GOOD FACTORY</div>
+        <div class="coupon-desc">出示優惠券可享5%折扣</div>
+        <div class="expiry">期間：2027/02/28</div>
+      </div>
+      <a href="https://tw.aeonmall.global/mall/okinawarycom/coupons/866" class="btn-detail" target="_blank">出示優惠券</a>
+    </div>
+
+    <!-- 7 -->
+    <div class="card" data-cat="food">
+      <div>
+        <div class="card-img-wrapper"><img class="card-img" src="http://aeonmall-global.g.kuroco-img.app/v=1780555665/files/topics/864_ext_2_0.png" alt="gokoku (五穀)"></div>
+        <span class="tag tag-food">美食</span>
+        <div class="shop-title">gokoku (五穀)</div>
+        <div class="coupon-desc">出示此優惠券可享5%折扣</div>
+        <div class="expiry">期間：2027/02/28</div>
+      </div>
+      <a href="https://tw.aeonmall.global/mall/okinawarycom/coupons/865" class="btn-detail" target="_blank">出示優惠券</a>
+    </div>
+
+    <!-- 8 -->
+    <div class="card" data-cat="food">
+      <div>
+        <div class="card-img-wrapper"><img class="card-img" src="http://aeonmall-global.g.kuroco-img.app/v=1779414332/files/topics/836_ext_2_0.png" alt="Shabu Shabu Miyama (美山)"></div>
+        <span class="tag tag-food">美食</span>
+        <div class="shop-title">Shabu Shabu Miyama (美山)</div>
+        <div class="coupon-desc">點購桐峰牛肉自助餐的顧客可享帳單5%的折扣。</div>
+        <div class="expiry">期間：2027/02/28</div>
+      </div>
+      <a href="https://tw.aeonmall.global/mall/okinawarycom/coupons/842" class="btn-detail" target="_blank">出示優惠券</a>
+    </div>
+
+    <!-- 9 -->
+    <div class="card" data-cat="fashion">
+      <div>
+        <div class="card-img-wrapper"><img class="card-img" src="http://aeonmall-global.g.kuroco-img.app/v=1778121981/files/topics/726_ext_2_0.png" alt="HAPPINESS"></div>
+        <span class="tag tag-fashion">時尚</span>
+        <div class="shop-title">HAPPINESS</div>
+        <div class="coupon-desc">正價珠寶享九折優惠</div>
+        <div class="expiry">期間：2027/02/28</div>
+      </div>
+      <a href="https://tw.aeonmall.global/mall/okinawarycom/coupons/756" class="btn-detail" target="_blank">出示優惠券</a>
+    </div>
+
+    <!-- 10 -->
+    <div class="card" data-cat="fashion">
+      <div>
+        <div class="card-img-wrapper"><img class="card-img" src="http://aeonmall-global.g.kuroco-img.app/v=1778143586/files/topics/784_ext_2_0.png" alt="TIME STATION NEO"></div>
+        <span class="tag tag-fashion">時尚</span>
+        <div class="shop-title">TIME STATION NEO</div>
+        <div class="coupon-desc">折扣價基本再享 5% 折扣</div>
+        <div class="expiry">期間：2027/02/28</div>
+      </div>
+      <a href="https://tw.aeonmall.global/mall/okinawarycom/coupons/803" class="btn-detail" target="_blank">出示優惠券</a>
+    </div>
+
+    <!-- 11 -->
+    <div class="card" data-cat="food">
+      <div>
+        <div class="card-img-wrapper"><img class="card-img" src="http://aeonmall-global.g.kuroco-img.app/v=1778128915/files/topics/752_ext_2_0.png" alt="BLUE SEAL"></div>
+        <span class="tag tag-food">美食</span>
+        <div class="shop-title">BLUE SEAL</div>
+        <div class="coupon-desc">購買一份普通裝冰淇淋，即可獲贈一份小份冰淇淋！</div>
+        <div class="expiry">期間：2026/12/31</div>
+      </div>
+      <a href="https://tw.aeonmall.global/mall/okinawarycom/coupons/782" class="btn-detail" target="_blank">出示優惠券</a>
+    </div>
+
+    <!-- 12 -->
+    <div class="card" data-cat="fashion">
+      <div>
+        <div class="card-img-wrapper"><img class="card-img" src="http://aeonmall-global.g.kuroco-img.app/v=1778128739/files/topics/751_ext_2_0.png" alt="BILLABONG"></div>
+        <span class="tag tag-fashion">時尚</span>
+        <div class="shop-title">BILLABONG</div>
+        <div class="coupon-desc">購物滿30000日圓以上，可享9折優惠。</div>
+        <div class="expiry">期間：2027/02/28</div>
+      </div>
+      <a href="https://tw.aeonmall.global/mall/okinawarycom/coupons/781" class="btn-detail" target="_blank">出示優惠券</a>
+    </div>
+
+    <!-- 13 -->
+    <div class="card" data-cat="fashion">
+      <div>
+        <div class="card-img-wrapper"><img class="card-img" src="http://aeonmall-global.g.kuroco-img.app/v=1778128529/files/topics/750_ext_2_0.png" alt="JINS"></div>
+        <span class="tag tag-fashion">時尚</span>
+        <div class="shop-title">JINS</div>
+        <div class="coupon-desc">眼鏡框及鏡片享95折優惠。</div>
+        <div class="expiry">期間：2027/02/28</div>
+      </div>
+      <a href="https://tw.aeonmall.global/mall/okinawarycom/coupons/780" class="btn-detail" target="_blank">出示優惠券</a>
+    </div>
+
+    <!-- 14 -->
+    <div class="card" data-cat="fashion">
+      <div>
+        <div class="card-img-wrapper"><img class="card-img" src="http://aeonmall-global.g.kuroco-img.app/v=1778128375/files/topics/749_ext_2_0.png" alt="QUIKSILVER"></div>
+        <span class="tag tag-fashion">時尚</span>
+        <div class="shop-title">QUIKSILVER</div>
+        <div class="coupon-desc">五折優惠</div>
+        <div class="expiry">期間：2027/02/28</div>
+      </div>
+      <a href="https://tw.aeonmall.global/mall/okinawarycom/coupons/779" class="btn-detail" target="_blank">出示優惠券</a>
+    </div>
+
+    <!-- 15 -->
+    <div class="card" data-cat="goods">
+      <div>
+        <div class="card-img-wrapper"><img class="card-img" src="http://aeonmall-global.g.kuroco-img.app/v=1778126673/files/topics/748_ext_2_0.png" alt="FANCL"></div>
+        <span class="tag tag-goods">商品</span>
+        <div class="shop-title">FANCL</div>
+        <div class="coupon-desc">購買產品即可獲贈免費樣品。</div>
+        <div class="expiry">期間：2027/02/28</div>
+      </div>
+      <a href="https://tw.aeonmall.global/mall/okinawarycom/coupons/778" class="btn-detail" target="_blank">出示優惠券</a>
+    </div>
+
+    <!-- 16 -->
+    <div class="card" data-cat="fashion">
+      <div>
+        <div class="card-img-wrapper"><img class="card-img" src="http://aeonmall-global.g.kuroco-img.app/v=1778126510/files/topics/747_ext_2_0.png" alt="STONE MARKET"></div>
+        <span class="tag tag-fashion">時尚</span>
+        <div class="shop-title">STONE MARKET</div>
+        <div class="coupon-desc">店內商品九折優惠</div>
+        <div class="expiry">期間：2027/02/28</div>
+      </div>
+      <a href="https://tw.aeonmall.global/mall/okinawarycom/coupons/777" class="btn-detail" target="_blank">出示優惠券</a>
+    </div>
+
+    <!-- 17 -->
+    <div class="card" data-cat="fashion">
+      <div>
+        <div class="card-img-wrapper"><img class="card-img" src="http://aeonmall-global.g.kuroco-img.app/v=1778126330/files/topics/746_ext_2_0.png" alt="T-SHIRT-YA.COM"></div>
+        <span class="tag tag-fashion">時尚</span>
+        <div class="shop-title">T-SHIRT-YA.COM</div>
+        <div class="coupon-desc">本店所有商品皆享95折優惠。</div>
+        <div class="expiry">期間：2027/02/28</div>
+      </div>
+      <a href="https://tw.aeonmall.global/mall/okinawarycom/coupons/776" class="btn-detail" target="_blank">出示優惠券</a>
+    </div>
+
+    <!-- 18 -->
+    <div class="card" data-cat="fashion">
+      <div>
+        <div class="card-img-wrapper"><img class="card-img" src="http://aeonmall-global.g.kuroco-img.app/v=1778126194/files/topics/745_ext_2_0.png" alt="LEPSIM"></div>
+        <span class="tag tag-fashion">時尚</span>
+        <div class="shop-title">LEPSIM</div>
+        <div class="coupon-desc">非促銷商品，標價減 5%。</div>
+        <div class="expiry">期間：2027/02/28</div>
+      </div>
+      <a href="https://tw.aeonmall.global/mall/okinawarycom/coupons/774" class="btn-detail" target="_blank">出示優惠券</a>
+    </div>
+
+    <!-- 19 -->
+    <div class="card" data-cat="fashion">
+      <div>
+        <div class="card-img-wrapper"><img class="card-img" src="http://aeonmall-global.g.kuroco-img.app/v=1778125455/files/topics/744_ext_2_0.png" alt="Gap/GapKids"></div>
+        <span class="tag tag-fashion">時尚</span>
+        <div class="shop-title">Gap/GapKids</div>
+        <div class="coupon-desc">購物滿10000日圓以上，可享9折優惠。</div>
+        <div class="expiry">期間：2027/02/28</div>
+      </div>
+      <a href="https://tw.aeonmall.global/mall/okinawarycom/coupons/773" class="btn-detail" target="_blank">出示優惠券</a>
+    </div>
+
+    <!-- 20 -->
+    <div class="card" data-cat="fashion">
+      <div>
+        <div class="card-img-wrapper"><img class="card-img" src="http://aeonmall-global.g.kuroco-img.app/v=1778125315/files/topics/743_ext_2_0.png" alt="SAC’S BAR Resort"></div>
+        <span class="tag tag-fashion">時尚</span>
+        <div class="shop-title">SAC’S BAR Resort</div>
+        <div class="coupon-desc">購物滿10,000日圓（不含稅）即可獲贈原創新奇禮品一份。</div>
+        <div class="expiry">期間：2027/02/28</div>
+      </div>
+      <a href="https://tw.aeonmall.global/mall/okinawarycom/coupons/772" class="btn-detail" target="_blank">出示優惠券</a>
+    </div>
+
+    <!-- 21 -->
+    <div class="card" data-cat="food">
+      <div>
+        <div class="card-img-wrapper"><img class="card-img" src="http://aeonmall-global.g.kuroco-img.app/v=1778125189/files/topics/742_ext_2_0.png" alt="PEARL LADY CHA BAR"></div>
+        <span class="tag tag-food">美食</span>
+        <div class="shop-title">PEARL LADY CHA BAR</div>
+        <div class="coupon-desc">凡購買任何飲品，即可免費獲贈一份配料。</div>
+        <div class="expiry">期間：2027/02/28</div>
+      </div>
+      <a href="https://tw.aeonmall.global/mall/okinawarycom/coupons/771" class="btn-detail" target="_blank">出示優惠券</a>
+    </div>
+
+    <!-- 22 -->
+    <div class="card" data-cat="food">
+      <div>
+        <div class="card-img-wrapper"><img class="card-img" src="http://aeonmall-global.g.kuroco-img.app/v=1778125048/files/topics/741_ext_2_0.png" alt="STEAK HOUSE 88 Jr.+"></div>
+        <span class="tag tag-food">美食</span>
+        <div class="shop-title">STEAK HOUSE 88 Jr.+</div>
+        <div class="coupon-desc">酒吧飲品服務僅對點牛排的顧客開放（每組最多 6 人）。</div>
+        <div class="expiry">期間：2027/02/28</div>
+      </div>
+      <a href="https://tw.aeonmall.global/mall/okinawarycom/coupons/770" class="btn-detail" target="_blank">出示優惠券</a>
+    </div>
+
+    <!-- 23 -->
+    <div class="card" data-cat="goods">
+      <div>
+        <div class="card-img-wrapper"><img class="card-img" src="http://aeonmall-global.g.kuroco-img.app/v=1778124862/files/topics/740_ext_2_0.png" alt="cos:mura"></div>
+        <span class="tag tag-goods">商品</span>
+        <div class="shop-title">cos:mura</div>
+        <div class="coupon-desc">購物滿3000日圓以上，即可獲贈一片面膜。</div>
+        <div class="expiry">期間：2027/02/28</div>
+      </div>
+      <a href="https://tw.aeonmall.global/mall/okinawarycom/coupons/769" class="btn-detail" target="_blank">出示優惠券</a>
+    </div>
+
+    <!-- 24 -->
+    <div class="card" data-cat="fashion">
+      <div>
+        <div class="card-img-wrapper"><img class="card-img" src="http://aeonmall-global.g.kuroco-img.app/v=1778124712/files/topics/739_ext_2_0.png" alt="THE KISS"></div>
+        <span class="tag tag-fashion">時尚</span>
+        <div class="shop-title">THE KISS</div>
+        <div class="coupon-desc">購物滿11000日圓以上，即可獲贈精美禮品一份。</div>
+        <div class="expiry">期間：2027/02/28</div>
+      </div>
+      <a href="https://tw.aeonmall.global/mall/okinawarycom/coupons/768" class="btn-detail" target="_blank">出示優惠券</a>
+    </div>
+
+    <!-- 25 -->
+    <div class="card" data-cat="food">
+      <div>
+        <div class="card-img-wrapper"><img class="card-img" src="http://aeonmall-global.g.kuroco-img.app/v=1778124565/files/topics/738_ext_2_0.png" alt="Kamakura Pasta (鎌倉パスタ)"></div>
+        <span class="tag tag-food">美食</span>
+        <div class="shop-title">Kamakura Pasta (鎌倉パスタ)</div>
+        <div class="coupon-desc">總帳單享5%折扣</div>
+        <div class="expiry">期間：2027/02/28</div>
+      </div>
+      <a href="https://tw.aeonmall.global/mall/okinawarycom/coupons/767" class="btn-detail" target="_blank">出示優惠券</a>
+    </div>
+
+    <!-- 26 -->
+    <div class="card" data-cat="food">
+      <div>
+        <div class="card-img-wrapper"><img class="card-img" src="http://aeonmall-global.g.kuroco-img.app/v=1778124367/files/topics/737_ext_2_0.png" alt="CORE CURRY"></div>
+        <span class="tag tag-food">美食</span>
+        <div class="shop-title">CORE CURRY</div>
+        <div class="coupon-desc">五折優惠</div>
+        <div class="expiry">期間：2027/02/28</div>
+      </div>
+      <a href="https://tw.aeonmall.global/mall/okinawarycom/coupons/766" class="btn-detail" target="_blank">出示優惠券</a>
+    </div>
+
+    <!-- 27 -->
+    <div class="card" data-cat="food">
+      <div>
+        <div class="card-img-wrapper"><img class="card-img" src="http://aeonmall-global.g.kuroco-img.app/v=1778124197/files/topics/736_ext_2_0.png" alt="Karamenya Masumoto"></div>
+        <span class="tag tag-food">美食</span>
+        <div class="shop-title">Karamenya Masumoto</div>
+        <div class="coupon-desc">點辣面即可獲贈迷你餃子一個。</div>
+        <div class="expiry">期間：2027/02/28</div>
+      </div>
+      <a href="https://tw.aeonmall.global/mall/okinawarycom/coupons/765" class="btn-detail" target="_blank">出示優惠券</a>
+    </div>
+
+    <!-- 28 -->
+    <div class="card" data-cat="food">
+      <div>
+        <div class="card-img-wrapper"><img class="card-img" src="http://aeonmall-global.g.kuroco-img.app/v=1778124026/files/topics/735_ext_2_0.png" alt="karin"></div>
+        <span class="tag tag-food">美食</span>
+        <div class="shop-title">karin</div>
+        <div class="coupon-desc">您最喜歡的飲品可享50日圓優惠。</div>
+        <div class="expiry">期間：2027/02/28</div>
+      </div>
+      <a href="https://tw.aeonmall.global/mall/okinawarycom/coupons/764" class="btn-detail" target="_blank">出示優惠券</a>
+    </div>
+
+    <!-- 29 -->
+    <div class="card" data-cat="food">
+      <div>
+        <div class="card-img-wrapper"><img class="card-img" src="http://aeonmall-global.g.kuroco-img.app/v=1785137326/files/topics/734_ext_2_0.png" alt="GYUBEY (牛兵衛)"></div>
+        <span class="tag tag-food">美食</span>
+        <div class="shop-title">GYUBEY (牛兵衛)</div>
+        <div class="coupon-desc">點餐時需提供飲品服務</div>
+        <div class="expiry">期間：2027/02/28</div>
+      </div>
+      <a href="https://tw.aeonmall.global/mall/okinawarycom/coupons/763" class="btn-detail" target="_blank">出示優惠券</a>
+    </div>
+
+    <!-- 30 -->
+    <div class="card" data-cat="food">
+      <div>
+        <div class="card-img-wrapper"><img class="card-img" src="http://aeonmall-global.g.kuroco-img.app/v=1778123710/files/topics/733_ext_2_0.png" alt="Yanbaru Gelato"></div>
+        <span class="tag tag-food">美食</span>
+        <div class="shop-title">Yanbaru Gelato</div>
+        <div class="coupon-desc">三倍量的義式冰淇淋，價格卻只有雙倍份量。</div>
+        <div class="expiry">期間：2027/02/28</div>
+      </div>
+      <a href="https://tw.aeonmall.global/mall/okinawarycom/coupons/762" class="btn-detail" target="_blank">出示優惠券</a>
+    </div>
+
+    <!-- 31 -->
+    <div class="card" data-cat="fashion">
+      <div>
+        <div class="card-img-wrapper"><img class="card-img" src="http://aeonmall-global.g.kuroco-img.app/v=1778123527/files/topics/732_ext_2_0.png" alt="GORGE"></div>
+        <span class="tag tag-fashion">時尚</span>
+        <div class="shop-title">GORGE</div>
+        <div class="coupon-desc">免稅價再享5%折扣</div>
+        <div class="expiry">期間：2027/02/28</div>
+      </div>
+      <a href="https://tw.aeonmall.global/mall/okinawarycom/coupons/761" class="btn-detail" target="_blank">出示優惠券</a>
+    </div>
+
+    <!-- 32 -->
+    <div class="card" data-cat="fashion">
+      <div>
+        <div class="card-img-wrapper"><img class="card-img" src="http://aeonmall-global.g.kuroco-img.app/v=1778123377/files/topics/731_ext_2_0.png" alt="MEGANE no PRINCE"></div>
+        <span class="tag tag-fashion">時尚</span>
+        <div class="shop-title">MEGANE no PRINCE</div>
+        <div class="coupon-desc">免稅價格可額外享有 500 日圓折扣（店內部分商品除外）。</div>
+        <div class="expiry">期間：2027/02/28</div>
+      </div>
+      <a href="https://tw.aeonmall.global/mall/okinawarycom/coupons/760" class="btn-detail" target="_blank">出示優惠券</a>
+    </div>
+
+    <!-- 33 -->
+    <div class="card" data-cat="service">
+      <div>
+        <div class="card-img-wrapper"><img class="card-img" src="http://aeonmall-global.g.kuroco-img.app/v=1778123185/files/topics/730_ext_2_0.png" alt="Rycom Acupuncture & Osteopathic Clinic"></div>
+        <span class="tag tag-service">服務</span>
+        <div class="shop-title">Rycom Acupuncture & Osteopathic Clinic</div>
+        <div class="coupon-desc">按摩服務八折優惠</div>
+        <div class="expiry">期間：2027/02/28</div>
+      </div>
+      <a href="https://tw.aeonmall.global/mall/okinawarycom/coupons/759" class="btn-detail" target="_blank">出示優惠券</a>
+    </div>
+
+    <!-- 34 -->
+    <div class="card" data-cat="service">
+      <div>
+        <div class="card-img-wrapper"><img class="card-img" src="http://aeonmall-global.g.kuroco-img.app/v=1778122528/files/topics/728_ext_2_0.png" alt="Dr.stretch"></div>
+        <span class="tag tag-service">服務</span>
+        <div class="shop-title">Dr.stretch</div>
+        <div class="coupon-desc">時長60分鐘或以上的課程可享20%的折扣。</div>
+        <div class="expiry">期間：2027/02/28</div>
+      </div>
+      <a href="https://tw.aeonmall.global/mall/okinawarycom/coupons/758" class="btn-detail" target="_blank">出示優惠券</a>
+    </div>
+
+    <!-- 35 -->
+    <div class="card" data-cat="food">
+      <div>
+        <div class="card-img-wrapper"><img class="card-img" src="http://aeonmall-global.g.kuroco-img.app/v=1778122370/files/topics/727_ext_2_0.png" alt="SUTADONYA"></div>
+        <span class="tag tag-food">美食</span>
+        <div class="shop-title">SUTADONYA</div>
+        <div class="coupon-desc">點餐即可獲贈一杯中盃飲料。</div>
+        <div class="expiry">期間：2027/02/28</div>
+      </div>
+      <a href="https://tw.aeonmall.global/mall/okinawarycom/coupons/757" class="btn-detail" target="_blank">出示優惠券</a>
+    </div>
+
+    <!-- 36 -->
+    <div class="card" data-cat="goods">
+      <div>
+        <div class="card-img-wrapper"><img class="card-img" src="http://aeonmall-global.g.kuroco-img.app/v=1778121800/files/topics/725_ext_2_0.png" alt="B-DESIGN by JIBUNMAKURA"></div>
+        <span class="tag tag-goods">商品</span>
+        <div class="shop-title">B-DESIGN by JIBUNMAKURA</div>
+        <div class="coupon-desc">收銀台享5%優惠（特價商品及訂製寢具除外）</div>
+        <div class="expiry">期間：2027/02/28</div>
+      </div>
+      <a href="https://tw.aeonmall.global/mall/okinawarycom/coupons/755" class="btn-detail" target="_blank">出示優惠券</a>
+    </div>
+
+    <!-- 37 -->
+    <div class="card" data-cat="food">
+      <div>
+        <div class="card-img-wrapper"><img class="card-img" src="http://aeonmall-global.g.kuroco-img.app/v=1778121800/files/topics/725_ext_2_0.png" alt="Hitonigiri"></div>
+        <span class="tag tag-food">美食</span>
+        <div class="shop-title">Hitonigiri</div>
+        <div class="coupon-desc">任何餐點可免費獲贈一杯軟飲。</div>
+        <div class="expiry">期間：2027/02/28</div>
+      </div>
+      <a href="https://tw.aeonmall.global/mall/okinawarycom/coupons/754" class="btn-detail" target="_blank">出示優惠券</a>
+    </div>    
+
+    <!-- 38 -->
+    <div class="card" data-cat="food">
+      <div>
+        <div class="card-img-wrapper"><img class="card-img" src="http://aeonmall-global.g.kuroco-img.app/v=1778121233/files/topics/723_ext_2_0.png" alt="Manoa Pancake House"></div>
+        <span class="tag tag-food">美食</span>
+        <div class="shop-title">Manoa Pancake House</div>
+        <div class="coupon-desc">任何餐點可免費獲贈一杯軟飲。</div>
+        <div class="expiry">期間：2027/02/28</div>
+      </div>
+      <a href="https://tw.aeonmall.global/mall/okinawarycom/coupons/753" class="btn-detail" target="_blank">出示優惠券</a>
+    </div> 
+
+    <!-- 39 -->
+    <div class="card" data-cat="food">
+      <div>
+        <div class="card-img-wrapper"><img class="card-img" src="http://aeonmall-global.g.kuroco-img.app/v=1778143097/files/topics/719_ext_2_0.png" alt="Roast Beef Hoshi"></div>
+        <span class="tag tag-food">美食</span>
+        <div class="shop-title">Roast Beef Hoshi</div>
+        <div class="coupon-desc">任何餐點可免費獲贈一杯軟飲。</div>
+        <div class="expiry">期間：2027/02/28</div>
+      </div>
+      <a href="https://tw.aeonmall.global/mall/okinawarycom/coupons/721" class="btn-detail" target="_blank">出示優惠券</a>
+    </div> 
+
+    <!-- 40 -->
+    <div class="card" data-cat="goods">
+      <div>
+        <div class="card-img-wrapper"><img class="card-img" src="http://aeonmall-global.g.kuroco-img.app/v=1777534350/files/topics/720_ext_2_0.png" alt="Princess Party"></div>
+        <span class="tag tag-goods">商品</span>
+        <div class="shop-title">Princess Party</div>
+        <div class="coupon-desc">所有商品享95折優惠（適用於含稅金額滿5,500日圓以上的訂單）</div>
+        <div class="expiry">期間：2027/02/28</div>
+      </div>
+      <a href="https://tw.aeonmall.global/mall/okinawarycom/coupons/722" class="btn-detail" target="_blank">出示優惠券</a>
+    </div> 
+
+<!-- 1 -->
+<div class="card" data-cat="goods">
+  <div>
+    <div class="card-img-wrapper"><img class="card-img" src="https://aeonmall-global.g.kuroco-img.app/v=1784791734/files/topics/21_ext_2_0.png" alt="BicCamera×KOJIMA"></div>
+    <span class="tag tag-goods">商品</span>
+    <div class="shop-title">BicCamera×KOJIMA</div>
+    <div class="coupon-desc">TAX FREE 10% OFF +3% OFF coupon Japanese sake</div>
+    <div class="expiry">期間：2027/02/28</div>
+  </div>
+  <a href="https://tw.aeonmall.global/mall/okinawarycom/coupons/227" class="btn-detail" target="_blank">出示優惠券</a>
+</div>
+
+<!-- 2 -->
+<div class="card" data-cat="goods">
+  <div>
+    <div class="card-img-wrapper"><img class="card-img" src="https://aeonmall-global.g.kuroco-img.app/v=1784791734/files/topics/21_ext_2_0.png" alt="BicCamera×KOJIMA"></div>
+    <span class="tag tag-goods">商品</span>
+    <div class="shop-title">BicCamera×KOJIMA</div>
+    <div class="coupon-desc">TAX FREE 10% OFF +Max 7% OFF coupon</div>
+    <div class="expiry">期間：2026/12/31</div>
+  </div>
+  <a href="https://tw.aeonmall.global/mall/okinawarycom/coupons/226" class="btn-detail" target="_blank">出示優惠券</a>
+</div>
+
+<!-- 3 -->
+<div class="card" data-cat="fashion">
+  <div>
+    <div class="card-img-wrapper"><img class="card-img" src="https://aeonmall-global.g.kuroco-img.app/v=1769317049/files/topics/12_ext_2_0.png" alt="BAYFLOW"></div>
+    <span class="tag tag-fashion">時尚</span>
+    <div class="shop-title">BAYFLOW</div>
+    <div class="coupon-desc">店內商品9折</div>
+    <div class="expiry">期間：2027/02/28</div>
+  </div>
+  <a href="https://tw.aeonmall.global/mall/okinawarycom/coupons/135" class="btn-detail" target="_blank">出示優惠券</a>
+</div>
+
+<!-- 4 -->
+<div class="card" data-cat="gourmet">
+  <div>
+    <div class="card-img-wrapper"><img class="card-img" src="https://aeonmall-global.g.kuroco-img.app/v=1769317897/files/topics/24_ext_2_0.jpg" alt="KUSHIYA MONOGATARI"></div>
+    <span class="tag tag-gourmet">美食</span>
+    <div class="shop-title">KUSHIYA MONOGATARI</div>
+    <div class="coupon-desc">結帳金額95折</div>
+    <div class="expiry">期間：2027/02/28</div>
+  </div>
+  <a href="https://tw.aeonmall.global/mall/okinawarycom/coupons/305" class="btn-detail" target="_blank">出示優惠券</a>
+</div>
+
+<!-- 5 -->
+<div class="card" data-cat="fashion">
+  <div>
+    <div class="card-img-wrapper"><img class="card-img" src="https://aeonmall-global.g.kuroco-img.app/v=1769317872/files/topics/23_ext_2_0.png" alt="MEGA SPORTS"></div>
+    <span class="tag tag-fashion">時尚</span>
+    <div class="shop-title">MEGA SPORTS</div>
+    <div class="coupon-desc">店內商品95折+免稅</div>
+    <div class="expiry">期間：2027/02/28</div>
+  </div>
+  <a href="https://tw.aeonmall.global/mall/okinawarycom/coupons/279" class="btn-detail" target="_blank">出示優惠券</a>
+</div>
+
+<!-- 6 -->
+<div class="card" data-cat="fashion">
+  <div>
+    <div class="card-img-wrapper"><img class="card-img" src="https://aeonmall-global.g.kuroco-img.app/v=1769317838/files/topics/22_ext_2_0.png" alt="MURASAKI SPORTS"></div>
+    <span class="tag tag-fashion">時尚</span>
+    <div class="shop-title">MURASAKI SPORTS</div>
+    <div class="coupon-desc">店內商品５％OFF</div>
+    <div class="expiry">期間：2027/02/28</div>
+  </div>
+  <a href="https://tw.aeonmall.global/mall/okinawarycom/coupons/258" class="btn-detail" target="_blank">出示優惠券</a>
+</div>
+
+<!-- 7 -->
+<div class="card" data-cat="fashion">
+  <div>
+    <div class="card-img-wrapper"><img class="card-img" src="https://aeonmall-global.g.kuroco-img.app/v=1769316505/files/topics/18_ext_2_0.png" alt="Right-on"></div>
+    <span class="tag tag-fashion">時尚</span>
+    <div class="shop-title">Right-on</div>
+    <div class="coupon-desc">結帳金額 95折</div>
+    <div class="expiry">期間：2027/02/28</div>
+  </div>
+  <a href="https://tw.aeonmall.global/mall/okinawarycom/coupons/211" class="btn-detail" target="_blank">出示優惠券</a>
+</div>
+
+<!-- 8 -->
+<div class="card" data-cat="fashion">
+  <div>
+    <div class="card-img-wrapper"><img class="card-img" src="https://aeonmall-global.g.kuroco-img.app/v=1769317492/files/topics/14_ext_2_0.png" alt="P.S.FA"></div>
+    <span class="tag tag-fashion">時尚</span>
+    <div class="shop-title">P.S.FA</div>
+    <div class="coupon-desc">結帳金額 8 折</div>
+    <div class="expiry">期間：2027/02/28</div>
+  </div>
+  <a href="https://tw.aeonmall.global/mall/okinawarycom/coupons/151" class="btn-detail" target="_blank">出示優惠券</a>
+</div>
+
+<!-- 9 -->
+<div class="card" data-cat="fashion">
+  <div>
+    <div class="card-img-wrapper"><img class="card-img" src="https://aeonmall-global.g.kuroco-img.app/v=1768647990/files/topics/10_ext_2_0.png" alt="OWNDAYS"></div>
+    <span class="tag tag-fashion">時尚 / 商品</span>
+    <div class="shop-title">OWNDAYS</div>
+    <div class="coupon-desc">於免稅價基礎上再享95折！</div>
+    <div class="expiry">期間：2027/02/28</div>
+  </div>
+  <a href="https://tw.aeonmall.global/mall/okinawarycom/coupons/98" class="btn-detail" target="_blank">出示優惠券</a>
+</div>
+
+<!-- 10 -->
+<div class="card" data-cat="gourmet">
+  <div>
+    <div class="card-img-wrapper"><img class="card-img" src="https://aeonmall-global.g.kuroco-img.app/v=1786688842/files/topics/7_ext_2_0.png" alt="AEON STYLE"></div>
+    <span class="tag tag-gourmet">美食 / 商品</span>
+    <div class="shop-title">AEON STYLE</div>
+    <div class="coupon-desc">5% OFF Happy Coupon</div>
+    <div class="expiry">期間：2027/02/28</div>
+  </div>
+  <a href="https://tw.aeonmall.global/mall/okinawarycom/coupons/43" class="btn-detail" target="_blank">出示優惠券</a>
+</div>
+
+
+
+  </div> 
+  <script>
+    let currentCat = 'all';
+
+    function setCategory(cat, btn) {
+      currentCat = cat;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      filterCoupons();
+    }
+
+    function filterCoupons() {
+      const keyword = document.getElementById('searchInput').value.toLowerCase();
+      const cards = document.querySelectorAll('.card');
+
+      cards.forEach(card => {
+        const catMatch = currentCat === 'all' || card.getAttribute('data-cat') === currentCat;
+        const textMatch = card.innerText.toLowerCase().includes(keyword);
+
+        if (catMatch && textMatch) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+  </script>
 </body>
 </html>
